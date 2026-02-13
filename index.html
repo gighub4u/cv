@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ashutosh Chaudhary | DevOps Engineer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #38bdf8; /* Cyan/Blue for DevOps vibe */
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --success: #22c55e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- Particle Explosion CSS --- */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            z-index: 9999;
+            animation: explode 0.6s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+        }
+
+        /* --- Header / Hero Section --- */
+        header {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            background: radial-gradient(circle at 50% 50%, #1e293b 0%, #0f172a 100%);
+            position: relative;
+        }
+
+        .hero-badge {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-color);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+
+        /* --- Buttons with Explosion & Hover --- */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            color: #0f172a;
+            background: var(--accent-color);
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            margin: 0.5rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(56, 189, 248, 0.3);
+            background: #fff;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--accent-color);
+            color: #0f172a;
+        }
+
+        /* --- Layout Grid --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            border-left: 5px solid var(--accent-color);
+            padding-left: 1rem;
+        }
+
+        /* --- Skills Section --- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: width 1s ease-in-out;
+        }
+
+        /* --- Experience Section --- */
+        .timeline {
+            position: relative;
+            border-left: 2px solid rgba(255,255,255,0.1);
+            margin-left: 1rem;
+            padding-left: 2rem;
+        }
+
+        .timeline-item {
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.6rem;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            border: 4px solid var(--bg-color);
+        }
+
+        .job-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .job-company {
+            color: var(--accent-color);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .job-date {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* --- Certifications --- */
+        .badges-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .badge {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--success);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: 0.3s;
+        }
+
+        .badge:hover {
+            background: rgba(34, 197, 94, 0.2);
+            transform: scale(1.05);
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 3rem;
+            background: #0b1120;
+            color: var(--text-secondary);
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-links {
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-color);
+            transform: scale(1.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .container { padding: 2rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="hero-badge"><i class="fas fa-terminal"></i> System.Ready()</div>
+        <h1>Ashutosh Chaudhary</h1>
+        <h2>DevOps & Linux Infrastructure Engineer</h2>
+        <p style="color:var(--text-secondary); max-width: 600px; margin-bottom: 2rem;">
+            Specializing in high-scale hybrid cloud infrastructure, Kubernetes orchestration, and automated CI/CD pipelines.
+        </p>
+        <div>
+            <a href="#contact" class="btn explode-trigger">Contact Me</a>
+            <a href="#" class="btn btn-outline explode-trigger">Download Resume <i class="fas fa-download"></i></a>
+        </div>
+    </header>
+
+    <section class="container" id="skills">
+        <h3 class="section-title">Technical Expertise</h3>
+        <div class="skills-grid">
+            <div class="skill-card explode-trigger">
+                <div style="display:flex; justify-content:space-between;">
+                    <span><i class="fab fa-linux"></i> Linux OS (RHEL/CentOS)</span>
+                    <span>85%</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 85%"></div></div>
+            </div>
+            <div class="skill-card explode-trigger">
+                <div style="display:flex; justify-content:space-between;">
+                    <span><i class="fas fa-dharmachakra"></i> Kubernetes</span>
+                    <span>85%</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 85%"></div></div>
+            </div>
+            <div class="skill-card explode-trigger">
+                <div style="display:flex; justify-content:space-between;">
+                    <span><i class="fas fa-robot"></i> Ansible Automation</span>
+                    <span>80%</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 80%"></div></div>
+            </div>
+            <div class="skill-card explode-trigger">
+                <div style="display:flex; justify-content:space-between;">
+                    <span><i class="fas fa-code"></i> Scripting (Bash/Python)</span>
+                    <span>70%</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 70%"></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container" style="background: rgba(255,255,255,0.02); border-radius: 16px;">
+        <h3 class="section-title">Certifications</h3>
+        <div class="badges-grid">
+            <div class="badge explode-trigger"><i class="fas fa-certificate"></i> RHCSA (Red Hat Certified System Admin)</div>
+            <div class="badge explode-trigger"><i class="fas fa-certificate"></i> RHCE (Red Hat Certified Engineer)</div>
+            <div class="badge explode-trigger"><i class="fas fa-cube"></i> CKA (Certified Kubernetes Administrator)</div>
+            <div class="badge explode-trigger"><i class="fas fa-shield-alt"></i> CKS (Certified Kubernetes Security Specialist)</div>
+        </div>
+    </section>
+
+    <section class="container" id="experience">
+        <h3 class="section-title">Professional Journey</h3>
+        <div class="timeline">
+            
+            <div class="timeline-item">
+                <span class="job-company">HCLTech</span>
+                <div class="job-title">Technical Specialist</div>
+                <span class="job-date">April 2024 - Present</span>
+                <p>Overseeing hybrid cloud infrastructure (12,000+ servers). Managing ServiceNow changes, Splunk monitoring, patching, and vendor management.</p>
+            </div>
+
+            <div class="timeline-item">
+                <span class="job-company">Utho Clouds</span>
+                <div class="job-title">Senior Cloud Engineer</div>
+                <span class="job-date">Sep 2023 - Mar 2024</span>
+                <p>Implemented Kubernetes CI/CD pipelines reducing deployment time by 30%. Optimized cloud expenses via auto-scaling.</p>
+            </div>
+
+            <div class="timeline-item">
+                <span class="job-company">Intelegencia</span>
+                <div class="job-title">Linux Support Specialist</div>
+                <span class="job-date">Sep 2022 - Aug 2023</span>
+                <p>Managed DHCP/NTP configurations and provided L2/L3 support for US clients. Salesforce & Jira workflow management.</p>
+            </div>
+
+            <div class="timeline-item">
+                <span class="job-company">Freelancer</span>
+                <div class="job-title">DevOps Consultant</div>
+                <span class="job-date">May 2022 - July 2022</span>
+                <p>Deployed LAMP stacks via Ansible. Established storage clusters (GlusterFS, Pacemaker) and high-availability setups.</p>
+            </div>
+
+            <div class="timeline-item">
+                <span class="job-company">CIELHr</span>
+                <div class="job-title">System Administrator</div>
+                <span class="job-date">Aug 2020 - April 2022</span>
+                <p>Administered 100+ Unix servers. Managed Mail, Proxy, Apache, NFS, and performed comprehensive security hardening.</p>
+            </div>
+            
+            <div class="timeline-item">
+                <span class="job-company">Randstad India Pvt. Ltd.</span>
+                <div class="job-title">System Associate</div>
+                <span class="job-date">April 2019 - July 2020</span>
+                <p>RHEL Server configuration, OS hardening, and shell scripting for automation.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="container">
+        <h3 class="section-title">Education</h3>
+        <div style="display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+            <div class="skill-card explode-trigger">
+                <h4>Bachelor of Technology</h4>
+                <p style="color: var(--text-secondary)">College Of Engineering Roorkee, Uttarakhand</p>
+                <small>2012 - 2015</small>
+            </div>
+            <div class="skill-card explode-trigger">
+                <h4>Polytechnic Diploma</h4>
+                <p style="color: var(--text-secondary)">SKCE / BTEUP</p>
+                <small>2009 - 2012</small>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <h2>Let's Connect</h2>
+        <p>ashutosh_chaudhary@mail.com</p>
+        <p>Noida, Uttar Pradesh, India</p>
+        <div class="social-links">
+            <a href="#" class="explode-trigger"><i class="fab fa-linkedin"></i></a>
+            <a href="#" class="explode-trigger"><i class="fab fa-github"></i></a>
+            <a href="#" class="explode-trigger"><i class="fas fa-envelope"></i></a>
+        </div>
+        <p style="margin-top: 2rem; font-size: 0.8rem; opacity: 0.5;">&copy; 2026 Ashutosh Chaudhary. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Select all elements that should trigger the explosion
+        // We target buttons, cards, badges, and links
+        const triggers = document.querySelectorAll('.explode-trigger, .btn');
+
+        // Function to create particles
+        function createExplosion(x, y) {
+            const particleCount = 30; // Number of particles
+            const colors = ['#38bdf8', '#ffffff', '#22c55e', '#f472b6'];
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                document.body.appendChild(particle);
+
+                // Randomize starting position slightly
+                const destinationX = (Math.random() - 0.5) * 200 + 'px';
+                const destinationY = (Math.random() - 0.5) * 200 + 'px';
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+                // Set styles
+                particle.style.backgroundColor = randomColor;
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                
+                // Set custom variables for animation direction
+                particle.style.setProperty('--tx', destinationX);
+                particle.style.setProperty('--ty', destinationY);
+
+                // Remove particle after animation
+                setTimeout(() => {
+                    particle.remove();
+                }, 600);
+            }
+        }
+
+        // Add click event listener to the whole document
+        document.addEventListener('click', (e) => {
+            // Check if the clicked element (or its parent) is interactive
+            if (e.target.closest('.explode-trigger') || e.target.closest('.btn') || e.target.closest('a')) {
+                createExplosion(e.clientX, e.clientY);
+            }
+        });
+    </script>
+</body>
+</html>
