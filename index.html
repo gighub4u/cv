@@ -72,7 +72,82 @@
             margin-bottom: 1.5rem;
             border: 1px solid rgba(56, 189, 248, 0.2);
         }
+        /* --- Floating Bouncing Badges --- */
+        #badge-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0; /* Behind the text */
+            pointer-events: none; /* Allows you to click buttons through them */
+        }
 
+        .floating-badge {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: rgba(30, 41, 59, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(4px);
+            color: #fff;
+            font-weight: bold;
+            font-size: 0.8rem;
+            text-align: center;
+            user-select: none;
+            will-change: transform;
+        }
+
+        /* Specific Badge Colors */
+        .badge-rhcsa { border-color: #ef4444; color: #ef4444; box-shadow: 0 0 15px rgba(239, 68, 68, 0.2); }
+        .badge-rhce  { border-color: #dc2626; color: #dc2626; box-shadow: 0 0 15px rgba(220, 38, 38, 0.2); }
+        .badge-cka   { border-color: #3b82f6; color: #3b82f6; box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
+        .badge-cks   { border-color: #8b5cf6; color: #8b5cf6; box-shadow: 0 0 15px rgba(139, 92, 246, 0.2); }
+
+        .floating-badge i {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        /* Ensure Header Content stays ON TOP of badges */
+        header > *:not(#badge-container) {
+            z-index: 10;
+            position: relative;
+        }
+        /* --- Profile Photo Styling --- */
+        .profile-container {
+            width: 180px;
+            height: 180px;
+            margin-bottom: 2rem;
+            position: relative;
+            border-radius: 50%;
+            padding: 4px; /* Thickness of the gradient border */
+            background: linear-gradient(135deg, var(--accent-color), #22c55e); /* Cyan to Green gradient */
+            box-shadow: 0 0 40px rgba(56, 189, 248, 0.4); /* cool glow effect */
+            animation: float 6s ease-in-out infinite; /* Adds a gentle floating motion */
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover; /* Ensures photo doesn't stretch */
+            border: 4px solid var(--bg-color); /* Gap between photo and glowing border */
+            background-color: var(--card-bg);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
         h1 {
             font-size: 3.5rem;
             font-weight: 700;
@@ -237,8 +312,34 @@
             align-items: center;
             gap: 0.5rem;
             transition: 0.3s;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        /* --- Official Brand Colors for Certifications --- */
+
+        /* Red Hat (Standard Red) */
+        .badge-redhat {
+            background: rgba(238, 0, 0, 0.1) !important;
+            color: #EE0000 !important;
+            border: 1px solid rgba(238, 0, 0, 0.3) !important;
         }
 
+        .badge-redhat:hover {
+            background: rgba(238, 0, 0, 0.2) !important;
+            box-shadow: 0 0 15px rgba(238, 0, 0, 0.4);
+        }
+
+        /* Kubernetes (Official Blue) */
+        .badge-k8s {
+            background: rgba(50, 108, 229, 0.1) !important;
+            color: #326ce5 !important;
+            border: 1px solid rgba(50, 108, 229, 0.3) !important;
+        }
+
+        .badge-k8s:hover {
+            background: rgba(50, 108, 229, 0.2) !important;
+            box-shadow: 0 0 15px rgba(50, 108, 229, 0.4);
+        }
         .badge:hover {
             background: rgba(34, 197, 94, 0.2);
             transform: scale(1.05);
@@ -274,21 +375,81 @@
             h1 { font-size: 2.5rem; }
             .container { padding: 2rem 1.5rem; }
         }
+
+        /* --- Animated Poking Hand Effect --- */
+
+        /* 1. Ensure the button can hold the absolute positioned hand */
+        .badge {
+            position: relative; 
+            overflow: visible !important; /* Allows the hand to start "outside" the button */
+        }
+
+        /* 2. Create the hand (Hidden by default) */
+        .badge::after {
+            content: '👈';       /* Finger pointing left at the text */
+            position: absolute;
+            right: -50px;       /* Start hidden far to the right */
+            top: 50%;           
+            transform: translateY(-50%); /* Center vertically */
+            font-size: 2rem;    /* Size of the hand */
+            opacity: 0;         /* Invisible initially */
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncy entry */
+            pointer-events: none; /* Ensures the hand doesn't block the click */
+        }
+
+        /* 3. Make hand appear on Hover */
+        .badge:hover::after {
+            opacity: 1;
+            right: 10px;        /* Slide in to this position */
+            animation: poke-nudge 0.6s infinite alternate ease-in-out; /* Start poking */
+        }
+
+        /* 4. The "Poking" Animation */
+        @keyframes poke-nudge {
+            0% { right: 10px; transform: translateY(-50%) scale(1); }
+            100% { right: 25px; transform: translateY(-50%) scale(1.1); } /* Moves left into the text */
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="hero-badge"><i class="fas fa-terminal"></i> System.Ready()</div>
-        <h1>Ashutosh Chaudhary</h1>
-        <h2>DevOps & Linux Infrastructure Engineer</h2>
-        <p style="color:var(--text-secondary); max-width: 600px; margin-bottom: 2rem;">
-            Specializing in high-scale hybrid cloud infrastructure, Kubernetes orchestration, and automated CI/CD pipelines.
-        </p>
-        <div>
-            <a href="#contact" class="btn explode-trigger">Contact Me</a>
-            <a href="#" class="btn btn-outline explode-trigger">Download Resume <i class="fas fa-download"></i></a>
+    <header id="header-area">
+    <div id="badge-container">
+        <div class="floating-badge badge-rhcsa">
+            <i class="fab fa-redhat"></i>
+            RHCSA
         </div>
+        <div class="floating-badge badge-rhce">
+            <i class="fab fa-redhat"></i>
+            RHCE
+        </div>
+        <div class="floating-badge badge-cka">
+            <i class="fas fa-cubes"></i>
+            CKA
+        </div>
+        <div class="floating-badge badge-cks">
+            <i class="fas fa-shield-alt"></i>
+            CKS
+        </div>
+    </div>
+
+    <div class="profile-container explode-trigger">
+        <img src="my-photo.jpg" alt="Ashutosh Chaudhary" class="profile-img">
+    </div>
+
+    <div class="hero-badge"><i class="fas fa-terminal"></i> System.Ready()</div>
+    <h1>Ashutosh Chaudhary</h1>
+    <h2>DevOps & Linux Infrastructure Engineer</h2>
+    
+    <p style="color:var(--text-secondary); max-width: 600px; margin-bottom: 2rem;">
+        Specializing in high-scale hybrid cloud infrastructure, Kubernetes orchestration, and automated CI/CD pipelines.
+    </p>
+    <div>
+        <a href="#contact" class="btn explode-trigger">Contact Me</a>
+        <a href="Ashutosh_linux.pdf" download class="btn btn-outline explode-trigger">
+           Download Resume <i class="fas fa-download"></i>
+        </a>
+    </div>
     </header>
 
     <section class="container" id="skills">
@@ -326,13 +487,26 @@
     </section>
 
     <section class="container" style="background: rgba(255,255,255,0.02); border-radius: 16px;">
-        <h3 class="section-title">Certifications</h3>
-        <div class="badges-grid">
-            <div class="badge explode-trigger"><i class="fas fa-certificate"></i> RHCSA (Red Hat Certified System Admin)</div>
-            <div class="badge explode-trigger"><i class="fas fa-certificate"></i> RHCE (Red Hat Certified Engineer)</div>
-            <div class="badge explode-trigger"><i class="fas fa-cube"></i> CKA (Certified Kubernetes Administrator)</div>
-            <div class="badge explode-trigger"><i class="fas fa-shield-alt"></i> CKS (Certified Kubernetes Security Specialist)</div>
-        </div>
+    <h3 class="section-title">Certifications</h3>
+    <div class="badges-grid">
+        
+        <a href="https://rhtapps.redhat.com/verify?certId=220-068-068" target="_blank" class="badge badge-redhat explode-trigger">
+            <i class="fab fa-redhat"></i> RHCSA (Verify)
+        </a>
+        
+        <a href="https://rhtapps.redhat.com/verify?certId=220-068-068" target="_blank" class="badge badge-redhat explode-trigger">
+            <i class="fab fa-redhat"></i> RHCE (Verify)
+        </a>
+        
+        <a href="https://www.credly.com/badges/a90498dc-a865-457c-a322-a610ffacbe8a/public_url" target="_blank" class="badge badge-k8s explode-trigger">
+            <i class="fas fa-cubes"></i> CKA (Verify)
+        </a>
+        
+        <a href="https://www.credly.com/badges/5a77cf19-ae88-44b0-9969-aff4fc984807/public_url" target="_blank" class="badge badge-k8s explode-trigger">
+            <i class="fas fa-shield-alt"></i> CKS (Verify)
+        </a>
+
+    </div>
     </section>
 
     <section class="container" id="experience">
@@ -378,7 +552,7 @@
                 <span class="job-company">Randstad India Pvt. Ltd.</span>
                 <div class="job-title">System Associate</div>
                 <span class="job-date">April 2019 - July 2020</span>
-                <p>RHEL Server configuration, OS hardening, and shell scripting for automation.</p>
+                <p>Bare-metal servers configuration-StaticIP,RAIDs, VMWare esxi installation, OS hardening, and shell scripting for automation. Monitoring servers and attending all email alerts as L1 resource.</p>
             </div>
         </div>
     </section>
@@ -401,13 +575,25 @@
 
     <footer id="contact">
         <h2>Let's Connect</h2>
-        <p>ashutosh_chaudhary@mail.com</p>
+        
+        <p><a href="mailto:ashutosh_chaudhary@mail.com" style="color: inherit; text-decoration: none;">ashutosh_chaudhary@mail.com</a></p>
+        
         <p>Noida, Uttar Pradesh, India</p>
+        
         <div class="social-links">
-            <a href="#" class="explode-trigger"><i class="fab fa-linkedin"></i></a>
-            <a href="#" class="explode-trigger"><i class="fab fa-github"></i></a>
-            <a href="#" class="explode-trigger"><i class="fas fa-envelope"></i></a>
+            <a href="https://www.linkedin.com/in/engineer-ashutosh/" target="_blank" class="explode-trigger">
+                <i class="fab fa-linkedin"></i>
+            </a>
+
+            <a href="https://github.com/" target="_blank" class="explode-trigger">
+                <i class="fab fa-github"></i>
+            </a>
+
+            <a href="mailto:ashutosh_chaudhary@mail.com" class="explode-trigger">
+                <i class="fas fa-envelope"></i>
+            </a>
         </div>
+        
         <p style="margin-top: 2rem; font-size: 0.8rem; opacity: 0.5;">&copy; 2026 Ashutosh Chaudhary. All rights reserved.</p>
     </footer>
 
@@ -455,5 +641,114 @@
             }
         });
     </script>
+    <script>
+    // --- Bouncing Badges Physics Engine ---
+    (function() {
+        const container = document.getElementById('header-area');
+        const badges = document.querySelectorAll('.floating-badge');
+        
+        // Physics properties
+        let width = container.offsetWidth;
+        let height = container.offsetHeight;
+        const badgeSize = 90; // Approx width/height of badge
+        const radius = badgeSize / 2;
+        
+        // Store position and velocity for each badge
+        let items = [];
+
+        badges.forEach((el, index) => {
+            // Random start position
+            let x = Math.random() * (width - badgeSize);
+            let y = Math.random() * (height - badgeSize);
+            
+            // Random velocity (speed)
+            let vx = (Math.random() - 0.5) * 4; // Speed between -2 and 2
+            let vy = (Math.random() - 0.5) * 4;
+
+            items.push({ el, x, y, vx, vy, id: index });
+        });
+
+        function animate() {
+            // Update dimensions in case of resize
+            width = container.offsetWidth;
+            height = container.offsetHeight;
+
+            // 1. Update Positions & Wall Collisions
+            items.forEach(item => {
+                item.x += item.vx;
+                item.y += item.vy;
+
+                // Wall Bounce (Left/Right)
+                if (item.x <= 0) {
+                    item.x = 0;
+                    item.vx *= -1;
+                } else if (item.x + badgeSize >= width) {
+                    item.x = width - badgeSize;
+                    item.vx *= -1;
+                }
+
+                // Wall Bounce (Top/Bottom)
+                if (item.y <= 0) {
+                    item.y = 0;
+                    item.vy *= -1;
+                } else if (item.y + badgeSize >= height) {
+                    item.y = height - badgeSize;
+                    item.vy *= -1;
+                }
+            });
+
+            // 2. Badge vs Badge Collisions
+            for (let i = 0; i < items.length; i++) {
+                for (let j = i + 1; j < items.length; j++) {
+                    const b1 = items[i];
+                    const b2 = items[j];
+
+                    // Calculate center points
+                    const dx = (b2.x + radius) - (b1.x + radius);
+                    const dy = (b2.y + radius) - (b1.y + radius);
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    const minDistance = badgeSize + 10; // +10 for a little buffer
+
+                    if (distance < minDistance) {
+                        // Collision detected! Swap velocities (Elastic collision approximation)
+                        // This simple swap works well for objects of equal mass
+                        
+                        // Calculate angle of collision
+                        const angle = Math.atan2(dy, dx);
+                        
+                        // Prevent sticking: Move them apart slightly
+                        const overlap = minDistance - distance;
+                        const moveX = (overlap / 2) * Math.cos(angle);
+                        const moveY = (overlap / 2) * Math.sin(angle);
+                        
+                        b1.x -= moveX;
+                        b1.y -= moveY;
+                        b2.x += moveX;
+                        b2.y += moveY;
+
+                        // Swap velocity components acting along the collision vector
+                        // Simplified 1D elastic collision logic per axis for visual effect
+                        const tempVx = b1.vx;
+                        const tempVy = b1.vy;
+                        b1.vx = b2.vx;
+                        b1.vy = b2.vy;
+                        b2.vx = tempVx;
+                        b2.vy = tempVy;
+                    }
+                }
+            }
+
+            // 3. Apply positions to DOM
+            items.forEach(item => {
+                item.el.style.transform = `translate(${item.x}px, ${item.y}px)`;
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        // Start animation
+        animate();
+    })();
+</script>
 </body>
 </html>
